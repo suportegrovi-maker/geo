@@ -31,7 +31,7 @@ body { background: #060c18; color: #e8edf5; font-family: 'Inter', sans-serif; ov
 @keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
 
 /* HERO */
-.hero { padding: 64px 40px 56px; max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: 1fr 360px; gap: 64px; align-items: center; }
+.hero { padding: 64px 40px 56px; max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: 1fr 480px; gap: 48px; align-items: center; }
 
 .badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(26,110,245,0.1); border: 1px solid rgba(26,110,245,0.25); color: #5a9cf8; font-size: 10.5px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; padding: 5px 14px; border-radius: 100px; margin-bottom: 26px; }
 .badge-dot { width: 6px; height: 6px; border-radius: 50%; background: #1a6ef5; animation: pulse-dot 2s ease-in-out infinite; }
@@ -61,7 +61,7 @@ body { background: #060c18; color: #e8edf5; font-family: 'Inter', sans-serif; ov
 .cta-below strong { color: rgba(255,255,255,0.6); font-weight: 700; }
 
 /* EBOOK MOCKUP */
-.ebook-img { width: 100%; max-height: 500px; object-fit: contain; filter: drop-shadow(0 20px 60px rgba(26,110,245,0.25)); }
+.ebook-img { width: 100%; max-height: 520px; object-fit: contain; object-position: center; background: transparent; display: block; }
 
 .divider { width: 40px; height: 2px; background: #1a6ef5; margin: 24px auto 56px; border-radius: 2px; }
 
@@ -183,12 +183,13 @@ body { background: #060c18; color: #e8edf5; font-family: 'Inter', sans-serif; ov
   border-radius: 9px;
   padding: 10px 14px;
   font-family: 'Inter', sans-serif;
-  font-size: 14px;
+  font-size: 16px;
   color: #fff;
   outline: none;
   transition: border-color 0.2s;
   -webkit-appearance: none;
   appearance: none;
+  transform: translateZ(0);
 }
 .form-group select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
