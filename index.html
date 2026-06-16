@@ -631,10 +631,10 @@ function handleSubmit() {
     body: JSON.stringify(payload)
   })
   .then(function(r) {
-    window.location.href = 'https://grovimarketing.com.br/obrigado-geo';
+    window.top.location.href = 'https://grovimarketing.com.br/obrigado-geo';
   })
   .catch(function() {
-    window.location.href = 'https://grovimarketing.com.br/obrigado-geo';
+    window.top.location.href = 'https://grovimarketing.com.br/obrigado-geo';
   });
 }
 </script>
