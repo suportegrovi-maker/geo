@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEO Automotivo — Faça o ChatGPT indicar sua empresa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body { background: #060c18; color: #e8edf5; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+/* NAV */
+.nav { padding: 18px 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 0.5px solid rgba(255,255,255,0.07); position: sticky; top: 0; background: #060c18; z-index: 50; }
+.logo-mark { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 22px; color: #1a6ef5; }
+.logo-sub { font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: 2.5px; text-transform: uppercase; margin-top: 2px; }
+.nav-cta { background: transparent; color: #5a9cf8; border: 1px solid rgba(26,110,245,0.4); padding: 9px 20px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: 'Inter', sans-serif; }
+.nav-cta:hover { background: rgba(26,110,245,0.1); }
+
+/* TICKER */
+.ticker-wrap { background: #080e1c; border-bottom: 1px solid rgba(26,110,245,0.15); padding: 9px 0; overflow: hidden; white-space: nowrap; }
+.ticker-track { display: inline-flex; animation: ticker 30s linear infinite; }
+.ticker-item { display: inline-flex; align-items: center; gap: 8px; padding: 0 36px; font-size: 11.5px; }
+.ticker-item .dot { width: 5px; height: 5px; border-radius: 50%; background: #1a6ef5; flex-shrink: 0; }
+.ticker-item .q { color: rgba(255,255,255,0.5); font-style: italic; }
+@keyframes ticker { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+/* HERO */
+.hero { padding: 64px 40px 56px; max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: 1fr 360px; gap: 64px; align-items: center; }
+
+.badge { display: inline-flex; align-items: center; gap: 6px; background: rgba(26,110,245,0.1); border: 1px solid rgba(26,110,245,0.25); color: #5a9cf8; font-size: 10.5px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase; padding: 5px 14px; border-radius: 100px; margin-bottom: 26px; }
+.badge-dot { width: 6px; height: 6px; border-radius: 50%; background: #1a6ef5; animation: pulse-dot 2s ease-in-out infinite; }
+@keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.7)} }
+
+.hero-headline { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 50px; line-height: 1.05; color: #fff; margin-bottom: 22px; letter-spacing: -0.5px; }
+.typewriter-word { color: #1a6ef5; font-style: italic; }
+.cursor { display: inline-block; width: 3px; height: 0.8em; background: #1a6ef5; margin-left: 2px; vertical-align: middle; border-radius: 1px; animation: blink 0.7s step-end infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+.ia-logos { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; margin-bottom: 26px; }
+.ia-pill { background: rgba(255,255,255,0.05); border: 0.5px solid rgba(255,255,255,0.1); border-radius: 100px; padding: 5px 13px; font-size: 11.5px; font-weight: 600; color: rgba(255,255,255,0.55); display: flex; align-items: center; gap: 6px; }
+.ia-dot { width: 6px; height: 6px; border-radius: 50%; display: inline-block; }
+
+.hero-sub { font-size: 15.5px; line-height: 1.8; color: rgba(255,255,255,0.48); margin-bottom: 36px; }
+.hero-sub strong { color: rgba(255,255,255,0.82); font-weight: 600; }
+
+.cta-wrap { display: flex; flex-direction: column; align-items: flex-start; }
+.cta-btn { position: relative; display: inline-flex; align-items: center; gap: 10px; padding: 18px 32px; background: linear-gradient(135deg, #1a6ef5 0%, #0f4fd4 100%); color: #fff; border: none; border-radius: 10px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; overflow: hidden; transition: transform 0.18s, box-shadow 0.18s; box-shadow: 0 4px 20px rgba(26,110,245,0.45); animation: cta-pulse 2.5s ease-out infinite; }
+.cta-btn::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.12) 0%, transparent 60%); border-radius: 10px; pointer-events: none; }
+.cta-btn:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(26,110,245,0.6); animation: none; }
+.cta-icon { font-size: 18px; transition: transform 0.2s; display: inline-block; }
+.cta-btn:hover .cta-icon { transform: translateX(5px); }
+@keyframes cta-pulse { 0%{box-shadow:0 4px 20px rgba(26,110,245,0.45),0 0 0 0 rgba(26,110,245,0.4)} 60%{box-shadow:0 4px 20px rgba(26,110,245,0.45),0 0 0 14px rgba(26,110,245,0)} 100%{box-shadow:0 4px 20px rgba(26,110,245,0.45),0 0 0 0 rgba(26,110,245,0)} }
+
+.cta-below { margin-top: 11px; font-size: 12px; color: rgba(255,255,255,0.35); display: flex; align-items: center; gap: 6px; }
+.cta-below strong { color: rgba(255,255,255,0.6); font-weight: 700; }
+
+/* EBOOK MOCKUP */
+.ebook-img { width: 100%; max-height: 500px; object-fit: contain; filter: drop-shadow(0 20px 60px rgba(26,110,245,0.25)); }
+
+.divider { width: 40px; height: 2px; background: #1a6ef5; margin: 24px auto 56px; border-radius: 2px; }
+
+/* SECTIONS */
+.section { padding: 0 40px 64px; max-width: 1080px; margin: 0 auto; }
+.section-label { font-size: 10.5px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.28); margin-bottom: 10px; }
+.section h2 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 36px; color: #fff; line-height: 1.08; margin-bottom: 14px; }
+.section > p { font-size: 15px; line-height: 1.7; color: rgba(255,255,255,0.48); margin-bottom: 32px; }
+
+/* PROBLEM */
+.problem-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 28px; }
+.prob-card { background: rgba(255,255,255,0.025); border: 0.5px solid rgba(255,80,80,0.15); border-radius: 10px; padding: 16px; display: flex; gap: 10px; align-items: flex-start; }
+.prob-card p { font-size: 13px; color: rgba(255,255,255,0.48); line-height: 1.55; }
+
+/* PROOF */
+.proof-block { margin-bottom: 32px; }
+.proof-label { font-size: 10.5px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.28); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; }
+.proof-label::after { content: ''; flex: 1; height: 0.5px; background: rgba(255,255,255,0.08); }
+.proof-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.proof-card { background: rgba(255,255,255,0.03); border: 0.5px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 18px 16px; display: flex; flex-direction: column; gap: 10px; transition: border-color 0.2s, transform 0.2s; }
+.proof-card:hover { border-color: rgba(26,110,245,0.3); transform: translateY(-2px); }
+.proof-source { display: flex; align-items: center; gap: 7px; }
+.proof-source-dot { width: 6px; height: 6px; border-radius: 50%; background: #1a6ef5; flex-shrink: 0; }
+.proof-source-name { font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.3); letter-spacing: 0.8px; text-transform: uppercase; }
+.proof-stat { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 30px; color: #1a6ef5; line-height: 1; }
+.proof-text { font-size: 12.5px; color: rgba(255,255,255,0.45); line-height: 1.6; }
+.proof-text strong { color: rgba(255,255,255,0.7); }
+
+.highlight-box { background: rgba(26,110,245,0.06); border: 1px solid rgba(26,110,245,0.18); border-radius: 12px; padding: 20px 24px; margin-bottom: 16px; }
+.highlight-box p { font-size: 15px; color: rgba(255,255,255,0.62); line-height: 1.65; }
+.highlight-box strong { color: #fff; }
+
+/* PILLARS */
+.pillar-stack { display: flex; flex-direction: column; gap: 0; margin-bottom: 16px; }
+.pillar-card { display: flex; align-items: center; gap: 20px; padding: 22px 0; border-bottom: 0.5px solid rgba(255,255,255,0.06); transition: padding-left 0.25s; cursor: default; }
+.pillar-card:first-child { border-top: 0.5px solid rgba(255,255,255,0.06); }
+.pillar-card:hover { padding-left: 8px; }
+.pillar-left { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+.pillar-num { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 13px; color: #1a6ef5; letter-spacing: 1px; min-width: 24px; }
+.pillar-emoji-sm { font-size: 22px; line-height: 1; }
+.pillar-body { flex: 1; }
+.pillar-body strong { display: block; font-size: 14.5px; font-weight: 600; color: #fff; margin-bottom: 4px; line-height: 1.35; }
+.pillar-body p { font-size: 13px; color: rgba(255,255,255,0.42); line-height: 1.6; margin: 0; }
+.pillar-tag-sm { display: inline-block; margin-top: 8px; background: rgba(26,110,245,0.07); border: 0.5px solid rgba(26,110,245,0.15); color: rgba(26,110,245,0.7); font-size: 10.5px; font-weight: 600; padding: 2px 9px; border-radius: 100px; }
+.pillar-arrow { color: rgba(255,255,255,0.12); flex-shrink: 0; transition: color 0.2s; }
+.pillar-card:hover .pillar-arrow { color: #1a6ef5; }
+
+/* CHAT */
+.chat-section { padding: 0 40px 64px; max-width: 1080px; margin: 0 auto; }
+.chat-section .section-label { font-size: 10.5px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.28); margin-bottom: 10px; }
+.chat-section h2 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 36px; color: #fff; line-height: 1.08; margin-bottom: 8px; }
+.chat-section > p { font-size: 15px; line-height: 1.7; color: rgba(255,255,255,0.48); margin-bottom: 28px; }
+.chat-window { background: #08111e; border: 0.5px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden; margin-bottom: 36px; }
+.chat-topbar { background: #0a1525; border-bottom: 0.5px solid rgba(255,255,255,0.07); padding: 12px 18px; display: flex; align-items: center; gap: 10px; }
+.chat-topbar-dots { display: flex; gap: 5px; }
+.chat-topbar-dots span { width: 10px; height: 10px; border-radius: 50%; }
+.chat-topbar-label { font-size: 11.5px; color: rgba(255,255,255,0.3); font-weight: 600; margin-left: 6px; }
+.chat-topbar-logo { margin-left: auto; font-size: 11px; color: rgba(26,110,245,0.5); font-weight: 700; letter-spacing: 1px; }
+.chat-body { padding: 24px 20px; display: flex; flex-direction: column; gap: 16px; }
+.chat-msg { display: flex; align-items: flex-start; gap: 12px; }
+.chat-msg.user { flex-direction: row-reverse; }
+.chat-avatar { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 700; }
+.avatar-user { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.5); }
+.avatar-ai { background: rgba(26,110,245,0.15); border: 1px solid rgba(26,110,245,0.2); font-size: 16px; }
+.chat-bubble { max-width: 75%; padding: 12px 16px; font-size: 13.5px; line-height: 1.65; }
+.bubble-user { background: rgba(255,255,255,0.06); border: 0.5px solid rgba(255,255,255,0.09); color: rgba(255,255,255,0.75); border-radius: 14px 4px 14px 14px; }
+.bubble-ai { background: rgba(26,110,245,0.08); border: 0.5px solid rgba(26,110,245,0.18); color: rgba(255,255,255,0.72); border-radius: 4px 14px 14px 14px; }
+.bubble-ai strong { color: #fff; font-weight: 600; }
+.who-list { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
+.who-chip { background: rgba(26,110,245,0.1); border: 1px solid rgba(26,110,245,0.2); border-radius: 8px; padding: 6px 12px; font-size: 12.5px; color: rgba(255,255,255,0.65); }
+
+/* AUTHOR */
+.author-section { padding: 0 40px 64px; max-width: 1080px; margin: 0 auto; }
+.author-section .section-label { font-size: 10.5px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(255,255,255,0.28); margin-bottom: 10px; }
+.author-section h2 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 36px; color: #fff; line-height: 1.08; margin-bottom: 28px; }
+.author-card { display: grid; grid-template-columns: 200px 1fr; gap: 48px; align-items: start; background: #0a1422; border: 0.5px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 40px; position: relative; overflow: hidden; }
+.author-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #1a6ef5, transparent); border-radius: 20px 20px 0 0; }
+.author-photo-wrap { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+.author-photo { width: 150px; height: 150px; border-radius: 16px; object-fit: cover; border: 2px solid rgba(26,110,245,0.25); }
+.author-name { font-size: 15px; font-weight: 700; color: #fff; text-align: center; }
+.author-role { font-size: 11.5px; color: rgba(255,255,255,0.35); text-align: center; margin-top: 2px; }
+.author-grovi { display: inline-flex; align-items: center; gap: 5px; margin-top: 6px; background: rgba(26,110,245,0.1); border: 1px solid rgba(26,110,245,0.2); border-radius: 100px; padding: 4px 11px; font-size: 11px; font-weight: 700; color: #5a9cf8; }
+.author-intro { font-size: 17px; font-weight: 600; color: #fff; line-height: 1.45; margin-bottom: 16px; }
+.author-intro span { color: #1a6ef5; }
+.author-divider { width: 32px; height: 2px; background: rgba(26,110,245,0.4); border-radius: 2px; margin-bottom: 20px; }
+.author-text { font-size: 14px; color: rgba(255,255,255,0.5); line-height: 1.85; }
+.author-text p { margin-bottom: 14px; }
+.author-text p:last-child { margin-bottom: 0; }
+.author-text strong { color: rgba(255,255,255,0.75); font-weight: 600; }
+
+/* FINAL CTA */
+.final-cta { padding: 56px 40px 64px; max-width: 1080px; margin: 0 auto; text-align: center; }
+.final-cta h2 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 42px; color: #fff; line-height: 1.08; margin-bottom: 12px; }
+.final-cta p { font-size: 15px; color: rgba(255,255,255,0.42); margin-bottom: 32px; line-height: 1.7; max-width: 520px; margin-left: auto; margin-right: auto; }
+.final-cta .cta-wrap { align-items: center; }
+
+.footer-note { padding: 22px 40px; border-top: 0.5px solid rgba(255,255,255,0.06); text-align: center; font-size: 11px; color: rgba(255,255,255,0.18); }
+
+/* MODAL OVERLAY */
+.overlay { display: none; position: fixed; inset: 0; background: rgba(3,7,15,0.9); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
+.overlay.active { display: flex; }
+
+.modal { background: #0c1828; border: 1px solid rgba(26,110,245,0.2); border-radius: 18px; padding: 28px 28px 22px; width: 100%; max-width: 460px; position: relative; }
+.modal-close { position: absolute; top: 14px; right: 16px; background: none; border: none; color: rgba(255,255,255,0.3); font-size: 22px; cursor: pointer; line-height: 1; font-family: 'Inter', sans-serif; }
+.modal-close:hover { color: rgba(255,255,255,0.7); }
+
+.modal-badge { display: inline-block; background: rgba(26,110,245,0.12); border: 1px solid rgba(26,110,245,0.25); color: #5a9cf8; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 4px 12px; border-radius: 100px; margin-bottom: 10px; }
+.modal h3 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 26px; color: #fff; line-height: 1.1; margin-bottom: 4px; }
+.modal-sub { font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.5; margin-bottom: 16px; }
+
+.form-group { margin-bottom: 10px; }
+.form-group label { display: block; font-size: 10.5px; font-weight: 700; color: rgba(255,255,255,0.4); letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 5px; }
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  background: rgba(255,255,255,0.04);
+  border: 0.5px solid rgba(255,255,255,0.1);
+  border-radius: 9px;
+  padding: 10px 14px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  color: #fff;
+  outline: none;
+  transition: border-color 0.2s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.form-group select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.3)' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  padding-right: 36px;
+}
+.form-group select option { background: #0c1828; color: #fff; }
+.form-group input::placeholder { color: rgba(255,255,255,0.2); }
+.form-group input:focus,
+.form-group select:focus { border-color: rgba(26,110,245,0.5); background: rgba(26,110,245,0.04); }
+
+.field-error { display: none; font-size: 11px; color: rgba(255,100,100,0.8); margin-top: 5px; }
+.field-error.show { display: block; }
+.input-invalid { border-color: rgba(255,100,100,0.5) !important; }
+
+.modal-submit { width: 100%; background: linear-gradient(135deg, #1a6ef5 0%, #0f4fd4 100%); color: #fff; border: none; padding: 13px; border-radius: 9px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; margin-top: 6px; box-shadow: 0 4px 16px rgba(26,110,245,0.35); transition: transform 0.15s, box-shadow 0.15s; }
+.modal-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(26,110,245,0.5); }
+
+.modal-privacy { text-align: center; font-size: 11px; color: rgba(255,255,255,0.18); margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 5px; }
+
+.success-state { display: none; text-align: center; padding: 20px 0; }
+.success-state .check-icon { width: 64px; height: 64px; background: rgba(26,110,245,0.12); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+.success-state h3 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 30px; color: #fff; margin-bottom: 10px; }
+.success-state p { font-size: 14px; color: rgba(255,255,255,0.45); line-height: 1.65; }
+
+/* RD STATION FORM OVERRIDE */
+@media (max-width: 768px) {
+  .nav { padding: 16px 20px; }
+  .hero { grid-template-columns: 1fr; gap: 40px; padding: 40px 20px; }
+  .hero-headline { font-size: 36px; }
+  .ebook-img { max-height: 280px; }
+  .section { padding: 0 20px 48px; }
+  .chat-section { padding: 0 20px 48px; }
+  .author-section { padding: 0 20px 48px; }
+  .final-cta { padding: 40px 20px 48px; }
+  .problem-cards { grid-template-columns: 1fr; }
+  .proof-cards { grid-template-columns: 1fr; }
+  .author-card { grid-template-columns: 1fr; gap: 28px; padding: 28px 20px; }
+  .author-photo-wrap { flex-direction: row; align-items: center; gap: 16px; }
+  .author-photo { width: 80px; height: 80px; }
+  .modal { padding: 28px 20px; }
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div>
+    <div class="logo-mark">GEO Automotivo</div>
+    <div class="logo-sub">Presença em IA</div>
+  </div>
+  <button class="nav-cta" onclick="openModal()">Quero o guia grátis</button>
+</nav>
+
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span class="ticker-item"><span class="dot"></span><span class="q">"Qual a melhor loja de seminovos em São Paulo?"</span></span>
+    <span class="ticker-item"><span class="dot"></span><span class="q">"Oficina mecânica confiável no Tatuapé"</span></span>
+    <span class="ticker-item"><span class="dot"></span><span class="q">"Onde fazer martelinho de ouro na zona leste?"</span></span>
+    <span class="ticker-item"><span class="dot"></span><span class="q">"Funilaria que atende seguradora em Guarulhos"</span></span>
+    <span class="ticker-item"><span class="dot"></span><span class="q">"Loja de carro usado com garantia e laudo cautelar"</span></span>
+    <span class="ticker-item"><span class="dot"></span><span class="q">"Onde comprar seminovo com financiamento fácil?"</span></span>
+    <span class="ticker-item"><span class="dot"></span><span class="q">"Qual a melhor loja de seminovos em São Paulo?"</span></span>
+    <span class="ticker-item"><span class="dot"></span><span class="q">"Oficina mecânica confiável no Tatuapé"</span></span>
+    <span class="ticker-item"><span class="dot"></span><span class="q">"Onde fazer martelinho de ouro na zona leste?"</span></span>
+    <span class="ticker-item"><span class="dot"></span><span class="q">"Funilaria que atende seguradora em Guarulhos"</span></span>
+    <span class="ticker-item"><span class="dot"></span><span class="q">"Loja de carro usado com garantia e laudo cautelar"</span></span>
+    <span class="ticker-item"><span class="dot"></span><span class="q">"Onde comprar seminovo com financiamento fácil?"</span></span>
+  </div>
+</div>
+
+<section class="hero">
+  <div>
+    <div class="badge"><span class="badge-dot"></span>Faça o ChatGPT indicar sua empresa.</div>
+    <div class="hero-headline">
+      Como <span class="typewriter-word" id="tw-word"></span><span class="cursor"></span><br>
+      estão atraindo leads<br>
+      qualificados através do<br>
+      ChatGPT, Perplexity e Google IA
+    </div>
+    <div class="ia-logos">
+      <div class="ia-pill"><span class="ia-dot" style="background:#10a37f;"></span>ChatGPT</div>
+      <div class="ia-pill"><span class="ia-dot" style="background:#6366f1;"></span>Perplexity</div>
+      <div class="ia-pill"><span class="ia-dot" style="background:#4285f4;"></span>Google IA</div>
+      <div class="ia-pill"><span class="ia-dot" style="background:#cc785c;"></span>Claude</div>
+    </div>
+    <p class="hero-sub">Enquanto milhões de brasileiros usam IA para pesquisar, comparar e decidir onde comprar ou contratar, <strong>empresas que não aparecem nas respostas do ChatGPT, Perplexity e Google IA deixam leads qualificados irem direto para os concorrentes.</strong></p>
+    <div class="cta-wrap">
+      <button class="cta-btn" onclick="openModal()">Quero receber o guia gratuito <span class="cta-icon">→</span></button>
+      <div class="cta-below">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Totalmente <strong>GRÁTIS</strong> e com acesso <strong>IMEDIATO</strong>
+      </div>
+    </div>
+  </div>
+  <div>
+    <img src="https://suportegrovi-maker.github.io/geo/ebook.png" alt="GEO Automotivo Ebook" class="ebook-img">
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section">
+  <div class="section-label">O problema</div>
+  <h2>Por que a IA ignora sua empresa</h2>
+  <p>ChatGPT, Perplexity e Google IA só recomendam quem elas conseguem ler, entender e confiar. Se o seu site não está preparado, você simplesmente não existe para elas.</p>
+
+  <div class="problem-cards">
+    <div class="prob-card">
+      <svg width="15" height="15" style="flex-shrink:0;margin-top:1px" viewBox="0 0 24 24" fill="none" stroke="rgba(255,80,80,0.65)" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <p>Site confuso sem páginas específicas por serviço</p>
+    </div>
+    <div class="prob-card">
+      <svg width="15" height="15" style="flex-shrink:0;margin-top:1px" viewBox="0 0 24 24" fill="none" stroke="rgba(255,80,80,0.65)" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <p>Google Meu Negócio incompleto ou desatualizado</p>
+    </div>
+    <div class="prob-card">
+      <svg width="15" height="15" style="flex-shrink:0;margin-top:1px" viewBox="0 0 24 24" fill="none" stroke="rgba(255,80,80,0.65)" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <p>Preços e prazos escondidos com "consulte-nos" em tudo</p>
+    </div>
+    <div class="prob-card">
+      <svg width="15" height="15" style="flex-shrink:0;margin-top:1px" viewBox="0 0 24 24" fill="none" stroke="rgba(255,80,80,0.65)" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      <p>Nenhuma prova de autoridade ou avaliações recentes</p>
+    </div>
+  </div>
+
+  <div class="proof-block">
+    <div class="proof-label">O que os números dizem</div>
+    <div class="proof-cards">
+      <div class="proof-card">
+        <div class="proof-source"><span class="proof-source-dot"></span><span class="proof-source-name">Cadastra · Similarweb · 2025</span></div>
+        <div class="proof-stat">310 milhões</div>
+        <div class="proof-text">de acessos ao ChatGPT só em agosto de 2025 no Brasil. Crescimento de <strong>124% em um ano.</strong></div>
+      </div>
+      <div class="proof-card">
+        <div class="proof-source"><span class="proof-source-dot"></span><span class="proof-source-name">Cadastra · Similarweb · 2025</span></div>
+        <div class="proof-stat">3º lugar</div>
+        <div class="proof-text">O Brasil é o <strong>3º país do mundo</strong> com mais usuários de IA generativa, atrás só dos EUA e da Índia.</div>
+      </div>
+      <div class="proof-card">
+        <div class="proof-source"><span class="proof-source-dot"></span><span class="proof-source-name">Cadastra · Similarweb · 2025</span></div>
+        <div class="proof-stat">6,1 milhões</div>
+        <div class="proof-text">de visitas geradas pelo ChatGPT para empresas brasileiras. <strong>A IA já é um canal de vendas real.</strong></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <p>A maioria das empresas automotivas ainda disputa atenção só em tráfego pago, Instagram e OLX. <strong>Poucas estão se preparando para a nova camada de busca: a busca por IA.</strong></p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-label">A solução</div>
+  <h2>6 pilares que colocam sua empresa nas respostas da IA</h2>
+  <p>Cada pilar resolve uma lacuna que impede a IA de recomendar você hoje. Juntos, eles constroem uma presença digital que o ChatGPT, o Perplexity e o Google IA conseguem entender, confiar e citar.</p>
+
+  <div class="pillar-stack">
+    <div class="pillar-card">
+      <div class="pillar-left"><span class="pillar-num">01</span><span class="pillar-emoji-sm">📄</span></div>
+      <div class="pillar-body">
+        <strong>Um arquivo de texto que apresenta sua empresa para a IA</strong>
+        <p>Você cria uma vez, coloca no site e o ChatGPT passa a te conhecer pelo nome — e te indica quando alguém pergunta.</p>
+        <span class="pillar-tag-sm">Cria uma vez e pronto</span>
+      </div>
+      <svg class="pillar-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-left"><span class="pillar-num">02</span><span class="pillar-emoji-sm">🏷️</span></div>
+      <div class="pillar-body">
+        <strong>Um código que faz o Google entender o que você vende</strong>
+        <p>Como uma etiqueta invisível: "sou uma oficina na Zona Leste, abro às 8h". O Google lê e te mostra na hora certa.</p>
+        <span class="pillar-tag-sm">Invisível para o cliente, poderoso para a IA</span>
+      </div>
+      <svg class="pillar-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-left"><span class="pillar-num">03</span><span class="pillar-emoji-sm">🚪</span></div>
+      <div class="pillar-body">
+        <strong>Liberar a entrada do seu site para os robôs das IAs</strong>
+        <p>Muitos sites bloqueiam o ChatGPT sem saber. Em 5 minutos você abre essa porta e começa a existir para as IAs.</p>
+        <span class="pillar-tag-sm">5 minutos para aplicar</span>
+      </div>
+      <svg class="pillar-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-left"><span class="pillar-num">04</span><span class="pillar-emoji-sm">💬</span></div>
+      <div class="pillar-body">
+        <strong>As respostas que seu cliente já está buscando na IA</strong>
+        <p>A IA cita quem responde no site. Você vai receber as perguntas certas e o texto pronto para copiar e colar.</p>
+        <span class="pillar-tag-sm">Copy pronta para copiar e colar</span>
+      </div>
+      <svg class="pillar-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-left"><span class="pillar-num">05</span><span class="pillar-emoji-sm">📍</span></div>
+      <div class="pillar-body">
+        <strong>Seu Google Meu Negócio no ponto para aparecer perto de mim</strong>
+        <p>O que preencher, como pedir avaliações e o que a IA olha primeiro para te recomendar nas buscas locais.</p>
+        <span class="pillar-tag-sm">Funciona no dia que você aplicar</span>
+      </div>
+      <svg class="pillar-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+    <div class="pillar-card">
+      <div class="pillar-left"><span class="pillar-num">06</span><span class="pillar-emoji-sm">📑</span></div>
+      <div class="pillar-body">
+        <strong>Páginas simples que capturam quem está pronto para comprar agora</strong>
+        <p>Uma página por serviço e cidade. Quando a IA recebe essa pergunta, ela cita quem tem essa página. Você vai ver como criar do zero.</p>
+        <span class="pillar-tag-sm">Mais páginas, mais clientes</span>
+      </div>
+      <svg class="pillar-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </div>
+  </div>
+</section>
+
+<section class="chat-section">
+  <div class="section-label">Para quem é</div>
+  <h2>Isso serve para qualquer empresa do setor automotivo?</h2>
+  <p>Deixa a IA responder essa.</p>
+  <div class="chat-window">
+    <div class="chat-topbar">
+      <div class="chat-topbar-dots">
+        <span style="background:#ff5f57;"></span>
+        <span style="background:#febc2e;"></span>
+        <span style="background:#28c840;"></span>
+      </div>
+      <div class="chat-topbar-label">Nova conversa</div>
+      <div class="chat-topbar-logo">ChatGPT</div>
+    </div>
+    <div class="chat-body">
+      <div class="chat-msg user">
+        <div class="chat-avatar avatar-user">Eu</div>
+        <div class="chat-bubble bubble-user">Isso serve para qualquer empresa do setor automotivo?</div>
+      </div>
+      <div class="chat-msg">
+        <div class="chat-avatar avatar-ai">🤖</div>
+        <div class="chat-bubble bubble-ai">
+          <strong>Sim, funciona para qualquer empresa do setor.</strong> Mas o impacto é maior para negócios locais onde o cliente pesquisa antes de decidir e as indicações de IA fazem toda a diferença. Principalmente para:
+          <div class="who-list">
+            <div class="who-chip">Lojas de carros</div>
+            <div class="who-chip">Revendedoras de seminovos</div>
+            <div class="who-chip">Oficinas mecânicas</div>
+            <div class="who-chip">Funilaria e pintura</div>
+            <div class="who-chip">Estética automotiva</div>
+            <div class="who-chip">Martelinho de ouro</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="author-section">
+  <div class="section-label">Quem está por trás</div>
+  <h2>Quem está por trás da estratégia?</h2>
+  <div class="author-card">
+    <div class="author-photo-wrap">
+      <img src="https://suportegrovi-maker.github.io/geo/person.png" alt="Vinicius Souza" class="author-photo">
+      <div>
+        <div class="author-name">Vinicius Souza</div>
+        <div class="author-role">Estrategista de Marketing</div>
+        <div style="display:flex;justify-content:center;">
+          <div class="author-grovi">Fundador · Grovi</div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="author-intro">Estrategista de marketing e growth, fundador da <span>Grovi</span> — consultoria focada em empresas do setor automotivo.</div>
+      <div class="author-divider"></div>
+      <div class="author-text">
+        <p>A Grovi atua com <strong>consultoria, estratégia e execução de marketing</strong> para lojas de carros, oficinas de funilaria e pintura e negócios automotivos locais que precisam crescer de forma estruturada.</p>
+        <p>O trabalho vai do diagnóstico ao planejamento: organizar o marketing, melhorar o posicionamento, gerar demanda qualificada e aumentar a percepção de valor no mercado.</p>
+        <p>A proposta é simples: <strong>substituir marketing improvisado por uma arquitetura de marketing mais clara, profissional e orientada para crescimento.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <h2>Prepare sua empresa para a nova era das buscas com IA</h2>
+  <p>Receba o guia estratégico GEO Automotivo com os 6 pilares que você precisa implementar nos próximos 10 dias.</p>
+  <div class="cta-wrap">
+    <button class="cta-btn" onclick="openModal()">Quero receber o guia gratuito <span class="cta-icon">→</span></button>
+    <div class="cta-below">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Totalmente <strong>GRÁTIS</strong> e com acesso <strong>IMEDIATO</strong>
+    </div>
+  </div>
+</section>
+
+<div class="footer-note">GEO Automotivo · geo-automotivo.com.br · Grovi · Edição 2025</div>
+
+<!-- MODAL -->
+<div class="overlay" id="overlay" onclick="handleOverlayClick(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+
+      <div class="modal-badge">Guia Gratuito</div>
+      <h3>Obrigue o ChatGPT te indicar todos os dias</h3>
+      <p class="modal-sub">Preencha os dados abaixo e receba o guia gratuitamente.</p>
+
+      <div id="form-state">
+        <div class="form-group">
+          <label>Nome completo</label>
+          <input type="text" id="f-name" placeholder="Ex: João Silva" autocomplete="name">
+          <div class="field-error" id="e-name">Por favor, informe seu nome.</div>
+        </div>
+        <div class="form-group">
+          <label>WhatsApp</label>
+          <input type="tel" id="f-phone" placeholder="(11) 9 8721-2604" maxlength="16" autocomplete="tel">
+          <div class="field-error" id="e-phone">Formato inválido. Use: (DDD) 9 XXXX-XXXX</div>
+        </div>
+        <div class="form-group">
+          <label>E-mail</label>
+          <input type="email" id="f-email" placeholder="seu@email.com" autocomplete="email">
+          <div class="field-error" id="e-email">Por favor, informe um e-mail válido.</div>
+        </div>
+        <div class="form-group">
+          <label>Qual o seu segmento?</label>
+          <select id="f-segment">
+            <option value="" disabled selected>Selecione seu segmento...</option>
+            <option value="Oficina de Funilaria e Pintura">Oficina de Funilaria e Pintura</option>
+            <option value="Oficina Mecânica">Oficina Mecânica</option>
+            <option value="Martelinho de Ouro">Martelinho de Ouro</option>
+            <option value="Estética Automotiva">Estética Automotiva</option>
+            <option value="Loja de Carro">Loja de Carro</option>
+          </select>
+          <div class="field-error" id="e-segment">Selecione o seu segmento.</div>
+        </div>
+        <div class="form-group">
+          <label>Quantas pessoas na sua empresa?</label>
+          <select id="f-size">
+            <option value="" disabled selected>Selecione o tamanho da equipe...</option>
+            <option value="1 a 5 pessoas">1 a 5 pessoas</option>
+            <option value="5 a 10 pessoas">5 a 10 pessoas</option>
+            <option value="10 a 20 pessoas">10 a 20 pessoas</option>
+            <option value="Mais de 20 pessoas">Mais de 20 pessoas</option>
+          </select>
+          <div class="field-error" id="e-size">Selecione o tamanho da equipe.</div>
+        </div>
+        <button class="modal-submit" onclick="handleSubmit()">Quero receber o guia gratuito →</button>
+        <div class="modal-privacy">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Seus dados estão seguros. Sem spam.
+        </div>
+      </div>
+
+      <div class="success-state" id="success-state">
+        <div class="check-icon">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#1a6ef5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h3>Perfeito! Você está dentro.</h3>
+        <p>Em breve você receberá o acesso no WhatsApp e e-mail informados. Fique de olho — a nova era das buscas com IA já começou.</p>
+      </div>
+  </div>
+</div>
+
+<script>
+// TYPEWRITER
+var phrases = ['lojas de carros','oficinas de funilaria e pintura','oficinas mecânicas'];
+var wordEl = document.getElementById('tw-word');
+var phraseIdx = 0, charIdx = 0, deleting = false;
+function tick() {
+  var cur = phrases[phraseIdx];
+  if (!deleting) {
+    charIdx++; wordEl.textContent = cur.slice(0, charIdx);
+    if (charIdx === cur.length) { deleting = true; setTimeout(tick, 1800); } else setTimeout(tick, 68);
+  } else {
+    charIdx--; wordEl.textContent = cur.slice(0, charIdx);
+    if (charIdx === 0) { deleting = false; phraseIdx = (phraseIdx + 1) % phrases.length; setTimeout(tick, 380); } else setTimeout(tick, 36);
+  }
+}
+setTimeout(tick, 600);
+
+// MODAL
+function openModal() { document.getElementById('overlay').classList.add('active'); document.body.style.overflow = 'hidden'; }
+function closeModal() { document.getElementById('overlay').classList.remove('active'); document.body.style.overflow = ''; }
+function handleOverlayClick(e) { if (e.target === document.getElementById('overlay')) closeModal(); }
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
+
+// WHATSAPP MASK
+document.getElementById('f-phone').addEventListener('input', function(e) {
+  var v = e.target.value.replace(/\D/g, '');
+  var out = '';
+  if (v.length === 0) out = '';
+  else if (v.length <= 2) out = '(' + v;
+  else if (v.length <= 3) out = '(' + v.slice(0,2) + ') ' + v.slice(2);
+  else if (v.length <= 7) out = '(' + v.slice(0,2) + ') ' + v.slice(2,3) + ' ' + v.slice(3);
+  else if (v.length <= 11) out = '(' + v.slice(0,2) + ') ' + v.slice(2,3) + ' ' + v.slice(3,7) + '-' + v.slice(7);
+  else out = '(' + v.slice(0,2) + ') ' + v.slice(2,3) + ' ' + v.slice(3,7) + '-' + v.slice(7,11);
+  e.target.value = out;
+});
+
+// VALIDATION
+function showError(fId, eId, show) {
+  var el = document.getElementById(fId), err = document.getElementById(eId);
+  if (show) { el.classList.add('input-invalid'); err.classList.add('show'); }
+  else { el.classList.remove('input-invalid'); err.classList.remove('show'); }
+}
+function isValidPhone(v) { return v.replace(/\D/g,'').length === 11; }
+function isValidEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+// SUBMIT → RD STATION API
+function handleSubmit() {
+  var name    = document.getElementById('f-name').value.trim();
+  var phone   = document.getElementById('f-phone').value.trim();
+  var email   = document.getElementById('f-email').value.trim();
+  var segment = document.getElementById('f-segment').value;
+  var size    = document.getElementById('f-size').value;
+  var valid   = true;
+
+  if (!name)              { showError('f-name','e-name',true);       valid = false; } else showError('f-name','e-name',false);
+  if (!isValidPhone(phone)){ showError('f-phone','e-phone',true);    valid = false; } else showError('f-phone','e-phone',false);
+  if (!isValidEmail(email)){ showError('f-email','e-email',true);    valid = false; } else showError('f-email','e-email',false);
+  if (!segment)           { showError('f-segment','e-segment',true); valid = false; } else showError('f-segment','e-segment',false);
+  if (!size)              { showError('f-size','e-size',true);       valid = false; } else showError('f-size','e-size',false);
+
+  if (!valid) return;
+
+  var btn = document.querySelector('.modal-submit');
+  btn.textContent = 'Enviando...';
+  btn.disabled = true;
+
+  var payload = {
+    event_type: 'CONVERSION',
+    event_family: 'CDP',
+    payload: {
+      conversion_identifier: 'formulario-geo-automotivo',
+      name: name,
+      email: email,
+      mobile_phone: phone,
+      cf_segmento: segment,
+      cf_tamanho_da_equipe: size,
+      tags: ['geo-automotivo', segment.toLowerCase().replace(/\s+/g,'-')]
+    }
+  };
+
+  fetch('https://api.rd.services/platform/events?api_key=10cd5713f99d061facef8b35ff481106', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(function(r) {
+    window.location.href = 'https://grovimarketing.com.br/obrigado-geo';
+  })
+  .catch(function() {
+    window.location.href = 'https://grovimarketing.com.br/obrigado-geo';
+  });
+}
+</script>
+
+</body>
+</html>
