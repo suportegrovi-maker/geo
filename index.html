@@ -19,6 +19,11 @@ body { background: #060c18; color: #e8edf5; font-family: 'Inter', sans-serif; ov
 .nav { padding: 18px 40px; display: flex; align-items: center; justify-content: space-between; border-bottom: 0.5px solid rgba(255,255,255,0.07); position: sticky; top: 0; background: #060c18; z-index: 50; width: 100%; }
 .logo-mark { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 22px; color: #1a6ef5; }
 .logo-sub { font-size: 10px; color: rgba(255,255,255,0.35); letter-spacing: 2.5px; text-transform: uppercase; margin-top: 2px; }
+.nav-logo { height: 36px; width: auto; display: block; }
+.footer-links a { color: rgba(255,255,255,0.45); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: #1a6ef5; }
+.footer-disclaimer { margin: 8px 0 14px; }
+.footer-logo { height: 28px; width: auto; opacity: 0.5; filter: brightness(0) invert(1); margin-top: 4px; }
 .nav-cta { background: transparent; color: #5a9cf8; border: 1px solid rgba(26,110,245,0.4); padding: 9px 20px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: 'Inter', sans-serif; }
 .nav-cta:hover { background: rgba(26,110,245,0.1); }
 
@@ -61,7 +66,7 @@ body { background: #060c18; color: #e8edf5; font-family: 'Inter', sans-serif; ov
 .cta-below strong { color: rgba(255,255,255,0.6); font-weight: 700; }
 
 /* EBOOK MOCKUP */
-.ebook-img { width: 100%; max-height: 600px; object-fit: contain; object-position: center; background: transparent; display: block; filter: drop-shadow(0 24px 70px rgba(26,110,245,0.35)); }
+.ebook-img { width: 100%; max-height: 600px; object-fit: contain; object-position: center; display: block; mix-blend-mode: screen; filter: drop-shadow(0 24px 70px rgba(26,110,245,0.35)); }
 
 .divider { width: 40px; height: 2px; background: #1a6ef5; margin: 24px auto 56px; border-radius: 2px; }
 
@@ -271,8 +276,7 @@ body { background: #060c18; color: #e8edf5; font-family: 'Inter', sans-serif; ov
 
 <nav class="nav">
   <div>
-    <div class="logo-mark">GEO Automotivo</div>
-    <div class="logo-sub">Presença em IA</div>
+    <img src="https://raw.githubusercontent.com/suportegrovi-maker/geo/main/logo-grovi.png" alt="Grovi" class="nav-logo">
   </div>
   <button class="nav-cta" onclick="openModal()">Quero o guia grátis</button>
 </nav>
@@ -513,7 +517,15 @@ body { background: #060c18; color: #e8edf5; font-family: 'Inter', sans-serif; ov
   </div>
 </section>
 
-<div class="footer-note">GEO Automotivo · geo-automotivo.com.br · Grovi · Edição 2025</div>
+<div class="footer-note">
+  <p class="footer-links">
+    <a href="https://fernandobrasao.com/termos" target="_blank" rel="noopener">Termos de Uso</a>
+    &nbsp;&nbsp;|&nbsp;&nbsp;
+    <a href="http://fernandobrasao.com/privacidade" target="_blank" rel="noopener">Termos de Privacidade</a>
+  </p>
+  <p class="footer-disclaimer">Este site não faz parte do site do Facebook ou Facebook Inc. Todos os direitos reservados.</p>
+  <img src="https://raw.githubusercontent.com/suportegrovi-maker/geo/main/logo-grovi.png" alt="Grovi" class="footer-logo">
+</div>
 
 <!-- MODAL -->
 <div class="overlay" id="overlay" onclick="handleOverlayClick(event)">
