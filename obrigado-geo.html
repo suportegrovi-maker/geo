@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Obrigado — GEO Automotivo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #060c18;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── BARRA DE PROGRESSO ── */
+    .progress-bar-wrap {
+      width: 100%;
+      background: #0a1422;
+      padding: 14px 0 12px;
+      border-bottom: 0.5px solid rgba(255,255,255,0.06);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .progress-label {
+      text-align: center;
+      font-size: 12px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      padding: 0 20px;
+    }
+
+    .progress-label span {
+      font-weight: 700;
+      transition: color 0.5s;
+    }
+
+    .progress-track {
+      width: 90%;
+      max-width: 600px;
+      margin: 0 auto;
+      height: 8px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 99px;
+      transition: width 0.6s ease, background 1s ease;
+      background: #e53e3e;
+    }
+
+    /* ── BADGE — oculto até 100% ── */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(37,211,102,0.12);
+      border: 1px solid rgba(37,211,102,0.3);
+      border-radius: 99px;
+      padding: 5px 14px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #25d366;
+      letter-spacing: 0.4px;
+      margin-bottom: 6px;
+      opacity: 0;
+      transform: translateY(-8px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      pointer-events: none;
+    }
+
+    .badge.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .badge::before {
+      content: '✓';
+      background: #25d366;
+      color: #fff;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 900;
+    }
+
+    /* ── CONTEÚDO ── */
+    .page {
+      width: 100%;
+      max-width: 720px;
+      padding: 56px 24px 64px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 10px;
+    }
+
+    h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: clamp(36px, 6vw, 56px);
+      line-height: 1.05;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    h1 span { color: #1a6ef5; }
+
+    .subheadline {
+      font-size: clamp(16px, 2.5vw, 20px);
+      color: rgba(255,255,255,0.65);
+      font-weight: 400;
+      margin-bottom: 8px;
+    }
+
+    /* ── VÍDEO ── */
+    .video-wrap {
+      width: 100%;
+      max-width: 680px;
+      margin: 8px 0;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: #0a1422;
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .video-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 12px;
+      color: rgba(255,255,255,0.2);
+      font-size: 13px;
+      min-height: 220px;
+    }
+
+    .video-placeholder svg {
+      width: 56px;
+      height: 56px;
+      opacity: 0.2;
+    }
+
+    /* ── CTA ── */
+    .after-video {
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+    }
+
+    .after-video p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.55;
+      max-width: 480px;
+    }
+
+    .after-video p strong { color: #fff; }
+
+    .btn-whatsapp {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #25d366;
+      color: #fff;
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      font-size: 17px;
+      padding: 16px 36px;
+      border-radius: 10px;
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 0 8px 32px rgba(37,211,102,0.3);
+      transition: all 0.2s;
+      letter-spacing: 0.2px;
+    }
+
+    .btn-whatsapp:hover {
+      background: #20bd5a;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(37,211,102,0.4);
+    }
+
+    .btn-whatsapp svg { width: 22px; height: 22px; flex-shrink: 0; }
+
+    /* ── FOOTER ── */
+    .footer {
+      margin-top: auto;
+      padding: 24px 20px;
+      border-top: 0.5px solid rgba(255,255,255,0.06);
+      width: 100%;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .footer-links { font-size: 11px; color: rgba(255,255,255,0.3); }
+    .footer-links a { color: rgba(255,255,255,0.35); text-decoration: none; transition: color 0.2s; }
+    .footer-links a:hover { color: #1a6ef5; }
+    .footer-disclaimer { font-size: 11px; color: rgba(255,255,255,0.2); max-width: 480px; line-height: 1.5; }
+    .footer-logo { height: 24px; width: auto; opacity: 0.35; filter: brightness(0) invert(1); }
+
+    @media (max-width: 600px) {
+      .page { padding: 40px 16px 48px; }
+      .btn-whatsapp { font-size: 15px; padding: 14px 24px; width: 100%; justify-content: center; }
+    }
+  </style>
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '986671180834106');
+  fbq('track', 'PageView');
+  fbq('track', 'Lead');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=986671180834106&ev=Lead&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+</head>
+<body>
+
+<!-- ── BARRA DE PROGRESSO ── -->
+<div class="progress-bar-wrap">
+  <p class="progress-label">Estamos processando o seu cadastro, aguarde… <span id="pct">0%</span></p>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+</div>
+
+<!-- ── CONTEÚDO ── -->
+<div class="page">
+
+  <div class="badge" id="badge">Cadastro confirmado</div>
+
+  <h1>Espere! Falta apenas<br><span>uma etapa...</span></h1>
+
+  <p class="subheadline">Assista ao vídeo abaixo:</p>
+
+  <!-- VÍDEO — substituir pelo iframe vturb -->
+  <div class="video-wrap">
+    <!-- COLE O IFRAME VTURB AQUI:
+    <iframe src="URL_DO_VTURB" allowfullscreen allow="autoplay" style="width:100%;height:100%;border:none;"></iframe>
+    -->
+    <div class="video-placeholder">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+      Vídeo será inserido aqui (iframe vturb)
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="after-video">
+    <p>O link de acesso imediato ao material está liberado na descrição do grupo:</p>
+
+    <a href="https://chat.whatsapp.com/JRspxKiptXL6d3i0WdspAY?s=cl&p=i&mlu=1" class="btn-whatsapp" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+        <path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.558 4.118 1.528 5.845L0 24l6.335-1.505A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.97 0-3.81-.538-5.391-1.471l-.387-.23-4.007.952.952-3.922-.252-.402A9.938 9.938 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+      </svg>
+      Entrar no Grupo do WhatsApp
+    </a>
+  </div>
+
+</div>
+
+<!-- ── FOOTER ── -->
+<footer class="footer">
+  <p class="footer-links">
+    <a href="https://fernandobrasao.com/termos" target="_blank" rel="noopener">Termos de Uso</a>
+    &nbsp;&nbsp;|&nbsp;&nbsp;
+    <a href="http://fernandobrasao.com/privacidade" target="_blank" rel="noopener">Termos de Privacidade</a>
+  </p>
+  <p class="footer-disclaimer">Este site não faz parte do site do Facebook ou Facebook Inc. Todos os direitos reservados.</p>
+  <img src="https://raw.githubusercontent.com/suportegrovi-maker/geo/main/logo-grovi.png" alt="Grovi" class="footer-logo">
+</footer>
+
+<script>
+  const fill  = document.getElementById('progressFill');
+  const pct   = document.getElementById('pct');
+  const badge = document.getElementById('badge');
+
+  // Cor da barra interpolada: vermelho → amarelo → verde
+  // vermelho #e53e3e (0%), amarelo #ecc94b (50%), verde #25d366 (100%)
+  function getColor(p) {
+    if (p <= 50) {
+      // vermelho → amarelo
+      const t = p / 50;
+      const r = Math.round(229 + (236 - 229) * t); // 229→236
+      const g = Math.round(62  + (201 - 62)  * t); // 62→201
+      const b = Math.round(62  + (75  - 62)  * t); // 62→75
+      return `rgb(${r},${g},${b})`;
+    } else {
+      // amarelo → verde
+      const t = (p - 50) / 50;
+      const r = Math.round(236 + (37  - 236) * t); // 236→37
+      const g = Math.round(201 + (211 - 201) * t); // 201→211
+      const b = Math.round(75  + (102 - 75)  * t); // 75→102
+      return `rgb(${r},${g},${b})`;
+    }
+  }
+
+  // Duração total: ~60 segundos
+  // Etapas com pausas naturais para parecer processamento real
+  // [valor_alvo, duração_até_chegar_ms, pausa_antes_próxima_ms]
+  const steps = [
+    { to: 12, dur: 3000,  pause: 2000  },
+    { to: 24, dur: 4000,  pause: 3000  },
+    { to: 37, dur: 5000,  pause: 2500  },
+    { to: 48, dur: 4000,  pause: 3500  },
+    { to: 61, dur: 5000,  pause: 2000  },
+    { to: 73, dur: 4500,  pause: 4000  },
+    { to: 82, dur: 3500,  pause: 3000  },
+    { to: 91, dur: 4000,  pause: 2500  },
+    { to: 97, dur: 3500,  pause: 4000  },
+    { to: 100, dur: 2000, pause: 0     },
+  ];
+  // Total ≈ (3+4+5+4+5+4.5+3.5+4+3.5+2) + (2+3+2.5+3.5+2+4+3+2.5+4) = 38.5s + 26.5s = 65s ≈ 1 min
+
+  let current = 0;
+
+  function animateStep(index) {
+    if (index >= steps.length) return;
+    const step = steps[index];
+    const start = current;
+    const end   = step.to;
+    const startTime = performance.now();
+
+    function tick(now) {
+      const elapsed  = now - startTime;
+      const progress = Math.min(elapsed / step.dur, 1);
+      const eased    = 1 - Math.pow(1 - progress, 2); // ease-out quad
+      current = start + (end - start) * eased;
+
+      const rounded = Math.round(current);
+      fill.style.width      = rounded + '%';
+      fill.style.background = getColor(rounded);
+      pct.style.color       = getColor(rounded);
+      pct.textContent       = rounded + '%';
+
+      if (progress < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        current = end;
+        fill.style.width      = end + '%';
+        fill.style.background = getColor(end);
+        pct.style.color       = getColor(end);
+        pct.textContent       = end + '%';
+
+        if (end === 100) {
+          // Mostra badge com pequeno delay após chegar em 100%
+          setTimeout(() => badge.classList.add('visible'), 400);
+        } else {
+          setTimeout(() => animateStep(index + 1), step.pause);
+        }
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+
+  // Começa após 800ms
+  setTimeout(() => animateStep(0), 800);
+</script>
+
+</body>
+</html>
